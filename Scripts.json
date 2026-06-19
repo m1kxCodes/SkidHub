@@ -1,1 +1,53 @@
-
+{
+  "version": "1.0",
+  "scripts": [
+    {
+      "title": "Infinite Yield",
+      "desc": "admin command suite",
+      "cat": "misc",
+      "url": "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"
+    },
+    {
+      "title": "ESP / Chams",
+      "desc": "wallhack visualizers",
+      "cat": "visual",
+      "source": "-- ESP / Chams\n-- replace this with your real script url or source\nprint('ESP demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Fly Toggle",
+      "desc": "zero-gravity movement",
+      "cat": "movement",
+      "source": "-- Fly Toggle\nprint('Fly demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Speed Warp",
+      "desc": "adjustable velocity",
+      "cat": "movement",
+      "source": "-- Speed Warp\nprint('Speed demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Infinite Jump",
+      "desc": "escape the surface",
+      "cat": "movement",
+      "source": "-- Infinite Jump\nprint('Infinite Jump demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Noclip",
+      "desc": "phase through matter",
+      "cat": "movement",
+      "source": "-- Noclip\nprint('Noclip demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Fullbright",
+      "desc": "illuminate the void",
+      "cat": "visual",
+      "source": "-- Fullbright\nprint('Fullbright demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Aimbot Lite",
+      "desc": "lock-on assist",
+      "cat": "combat",
+      "source": "-- Aimbot Lite\nprint('Aimbot demo - add your source in Scripts.json')"
+    }
+  ]
+}
