@@ -15,9 +15,9 @@
     },
     {
       "title": "Fly GUI",
-      "desc": "zero-gravity movement",
+      "desc": "a fly gui intended for mobile users",
       "cat": "movement",
-      "source": ""
+      "source": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/fly.lua"
     },
     {
       "title": "Speed Warp",
