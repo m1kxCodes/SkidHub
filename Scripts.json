@@ -26,12 +26,6 @@
       "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/remotespy.lua"
     },
     {
-      "title": "Infinite Jump",
-      "desc": "escape the surface",
-      "cat": "movement",
-      "source": "-- Infinite Jump\nprint('Infinite Jump demo - add your source in Scripts.json')"
-    },
-    {
       "title": "Fullbright",
       "desc": "illuminate the void",
       "cat": "visual",
