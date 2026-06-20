@@ -27,7 +27,7 @@
     },
     {
       "title": "Fullbright",
-      "desc": "illuminate the void",
+      "desc": "removes all dark areas and makes them bright w/ a gui",
       "cat": "visual",
       "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/fullbright.lua"
     },
