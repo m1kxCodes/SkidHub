@@ -14,9 +14,9 @@
       "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/ESP.lua"
     },
     {
-      "title": "Fly GUI",
+      "title": "DEX",
       "desc": "a fly gui intended for mobile users",
-      "cat": "movement",
+      "cat": "misc",
       "source": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/fly.lua"
     },
     {
