@@ -14,10 +14,10 @@
       "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/ESP.lua"
     },
     {
-      "title": "Fly Toggle",
+      "title": "Fly GUI",
       "desc": "zero-gravity movement",
       "cat": "movement",
-      "source": "-- Fly Toggle\nprint('Fly demo - add your source in Scripts.json')"
+      "source": ""
     },
     {
       "title": "Speed Warp",
