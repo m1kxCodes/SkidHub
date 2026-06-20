@@ -17,7 +17,7 @@
       "title": "DEX",
       "desc": "explorer w/ a decompiler",
       "cat": "misc",
-      "source": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/DEX.lua"
+      "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/DEX.lua"
     },
     {
       "title": "Remote Spy",
