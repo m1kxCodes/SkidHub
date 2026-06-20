@@ -31,4 +31,6 @@ Paste the contents of `SkidHub.lua` into your executor and run it.
 ---
 
 made by **cool_seagull**, the greatest skid. dc: 8l4n
-***Potassiumsss also helped! dc: 31j2***
+
+
+**Potassiumsss** also helped! dc: **31j2**
