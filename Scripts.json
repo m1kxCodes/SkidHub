@@ -3,7 +3,7 @@
   "scripts": [
     {
       "title": "Infinite Yield",
-      "desc": "admin command suite",
+      "desc": "admin command suite with many different features",
       "cat": "misc",
       "url": "https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"
     },
@@ -48,6 +48,12 @@
       "desc": "lock-on assist",
       "cat": "combat",
       "source": "-- Aimbot Lite\nprint('Aimbot demo - add your source in Scripts.json')"
+    },
+    {
+      "title": "Instant Proximity Prompt",
+      "desc": "instantly activates proxmity prompts",
+      "cat": "utility",
+      "source": "for _, obj in ipairs(workspace:GetDescendants()) do if obj:IsA(\"ProximityPrompt\") then obj.HoldDuration = 0 end end workspace.DescendantAdded:Connect(function(obj) if obj:IsA(\"ProximityPrompt\") then obj.HoldDuration = 0 end end)"
     }
   ]
 }
