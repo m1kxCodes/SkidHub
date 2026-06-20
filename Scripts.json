@@ -53,7 +53,7 @@
       "title": "Instant Proximity Prompt",
       "desc": "instantly activates proxmity prompts",
       "cat": "utility",
-      "source": "for _, obj in ipairs(workspace:GetDescendants()) do if obj:IsA(\"ProximityPrompt\") then obj.HoldDuration = 0 end end workspace.DescendantAdded:Connect(function(obj) if obj:IsA(\"ProximityPrompt\") then obj.HoldDuration = 0 end end)"
+      "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/InstantProximityPrompt.lua"
     }
   ]
 }
