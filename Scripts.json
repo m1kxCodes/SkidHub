@@ -23,7 +23,7 @@
       "title": "Remote Spy",
       "desc": "see and copy remotes",
       "cat": "misc",
-      "source": "-- Speed Warp\nprint('Speed demo - add your source in Scripts.json')"
+      "url": "https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/scripts/remotespy.lua"
     },
     {
       "title": "Infinite Jump",
