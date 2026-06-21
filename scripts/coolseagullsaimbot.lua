@@ -6,7 +6,7 @@ _/ ___\/  _ \ /  _ \|  |       /  ___// __ \\__  \   / ___\|  |  \  | |  |  /  _
  \___  >____/ \____/|____/____/____  >\___  >____  /\___  /|____/|____/____/____  > \____|__  /__|__|_|  /___  /\____/|__|
      \/                 /_____/    \/     \/     \//_____/                      \/          \/         \/    \/
 
-    Seagull Aimbot - by cool_seagull
+    Seagull Aimbot  -  by cool_seagull
 --]]
 
 -- ============================================================================
@@ -123,6 +123,7 @@ local accentText = {}    -- text elements recolored when the UI color changes
 local setUIColor         -- forward declared; recolors the UI accent live
 local fovStroke          -- forward declared; FOV circle outline
 local notify             -- forward declared; SetCore toast helper
+local confirmDialog      -- forward declared; themed yes/no modal
 
 -- ============================================================================
 --  CONFIG SAVING  (writefile/readfile via JSON; Color3 + KeyCode serialized)
@@ -588,6 +589,118 @@ notify = function(title, text, duration)
         tween(bodyL, 0.3, {TextTransparency = 1})
         delay(0.32, function() toast:Destroy() end)
     end)
+end
+
+-- ---------------------------------------------------------------------------
+--  Confirmation modal (dimmed backdrop + Yes / No)
+-- ---------------------------------------------------------------------------
+confirmDialog = function(message, onYes, onNo)
+    local dim = Instance.new("Frame")
+    dim.Name = "Confirm"
+    dim.Size = UDim2.new(1, 0, 1, 0)
+    dim.BackgroundColor3 = Color3.new(0, 0, 0)
+    dim.BackgroundTransparency = 1
+    dim.BorderSizePixel = 0
+    dim.ZIndex = 80
+    dim.Parent = screenGui
+
+    -- swallow clicks on the backdrop so the UI behind can't be interacted with
+    local blocker = Instance.new("TextButton")
+    blocker.Size = UDim2.new(1, 0, 1, 0)
+    blocker.BackgroundTransparency = 1
+    blocker.Text = ""
+    blocker.AutoButtonColor = false
+    blocker.ZIndex = 80
+    blocker.Parent = dim
+
+    local panel = Instance.new("Frame")
+    panel.AnchorPoint = Vector2.new(0.5, 0.5)
+    panel.Position = UDim2.new(0.5, 0, 0.5, 0)
+    panel.Size = UDim2.new(0, 340, 0, 160)
+    panel.BackgroundColor3 = Theme.Panel
+    panel.BackgroundTransparency = 1
+    panel.BorderSizePixel = 0
+    panel.ZIndex = 81
+    panel.Parent = dim
+    corner(panel, 12)
+    local pStroke = stroke(panel, Theme.Stroke, 1.5, 1)
+
+    local titleL = Instance.new("TextLabel")
+    titleL.BackgroundTransparency = 1
+    titleL.Position = UDim2.new(0, 18, 0, 16)
+    titleL.Size = UDim2.new(1, -36, 0, 18)
+    titleL.Font = Enum.Font.Code
+    titleL.Text = "CONFIRM"
+    titleL.TextColor3 = Theme.Accent
+    titleL.TextSize = 14
+    titleL.TextTransparency = 1
+    titleL.TextXAlignment = Enum.TextXAlignment.Left
+    titleL.ZIndex = 82
+    titleL.Parent = panel
+    table.insert(accentText, titleL)
+
+    local msgL = Instance.new("TextLabel")
+    msgL.BackgroundTransparency = 1
+    msgL.Position = UDim2.new(0, 18, 0, 42)
+    msgL.Size = UDim2.new(1, -36, 0, 60)
+    msgL.Font = Enum.Font.Code
+    msgL.Text = message
+    msgL.TextColor3 = Theme.Text
+    msgL.TextSize = 13
+    msgL.TextTransparency = 1
+    msgL.TextWrapped = true
+    msgL.TextXAlignment = Enum.TextXAlignment.Left
+    msgL.TextYAlignment = Enum.TextYAlignment.Top
+    msgL.ZIndex = 82
+    msgL.Parent = panel
+
+    local function mkBtn(txt, xScale, isPrimary)
+        local b = Instance.new("TextButton")
+        b.AnchorPoint = Vector2.new(xScale, 1)
+        b.Position = UDim2.new(xScale, xScale == 0 and 18 or -18, 1, -16)
+        b.Size = UDim2.new(0.5, -26, 0, 32)
+        b.BackgroundColor3 = isPrimary and Theme.Module or Theme.Control
+        b.AutoButtonColor = false
+        b.Font = Enum.Font.Code
+        b.Text = txt
+        b.TextColor3 = isPrimary and Theme.Accent or Theme.SubText
+        b.TextSize = 13
+        b.TextTransparency = 1
+        b.BackgroundTransparency = 1
+        b.ZIndex = 82
+        b.Parent = panel
+        corner(b, 8)
+        local s = stroke(b, Theme.Stroke, 1, 1)
+        b.MouseEnter:Connect(function() tween(b, 0.15, {BackgroundColor3 = Theme.ModuleHover}) end)
+        b.MouseLeave:Connect(function() tween(b, 0.15, {BackgroundColor3 = isPrimary and Theme.Module or Theme.Control}) end)
+        if isPrimary then table.insert(accentText, b) end
+        return b, s
+    end
+    local yesBtn, yesStroke = mkBtn("YES", 0, true)
+    local noBtn,  noStroke  = mkBtn("NO", 1, false)
+
+    -- fade in
+    tween(dim, 0.2, {BackgroundTransparency = 0.45})
+    tween(panel, 0.2, {BackgroundTransparency = 0})
+    tween(pStroke, 0.2, {Transparency = 0.15})
+    tween(titleL, 0.2, {TextTransparency = 0})
+    tween(msgL, 0.2, {TextTransparency = 0})
+    for _, b in ipairs({yesBtn, noBtn}) do tween(b, 0.2, {BackgroundTransparency = 0, TextTransparency = 0}) end
+    tween(yesStroke, 0.2, {Transparency = 0.4})
+    tween(noStroke, 0.2, {Transparency = 0.4})
+
+    local done = false
+    local function close(cb)
+        if done then return end
+        done = true
+        tween(dim, 0.2, {BackgroundTransparency = 1})
+        tween(panel, 0.2, {BackgroundTransparency = 1})
+        tween(pStroke, 0.2, {Transparency = 1})
+        delay(0.22, function() dim:Destroy() end)
+        if cb then cb() end
+    end
+    yesBtn.MouseButton1Click:Connect(function() close(onYes) end)
+    noBtn.MouseButton1Click:Connect(function() close(onNo) end)
 end
 
 -- ---------------------------------------------------------------------------
@@ -1737,11 +1850,28 @@ UIS.InputBegan:Connect(function(input, gameProcessed)
             bound = input.UserInputType
         end
         if bound then
-            Config.AimKey = bound
             changingKeybind = false
-            if keybindBtn then
-                keybindBtn.Text = "[ " .. keyName(Config.AimKey) .. " ]"
-                keybindBtn.TextColor3 = Theme.Accent
+            local function apply()
+                Config.AimKey = bound
+                if keybindBtn then
+                    keybindBtn.Text = "[ " .. keyName(Config.AimKey) .. " ]"
+                    keybindBtn.TextColor3 = Theme.Accent
+                end
+            end
+            local function revert()
+                if keybindBtn then
+                    keybindBtn.Text = "[ " .. keyName(Config.AimKey) .. " ]"
+                    keybindBtn.TextColor3 = Theme.Accent
+                end
+            end
+            -- Left/right click double as UI/camera input, so confirm first.
+            if bound == Enum.UserInputType.MouseButton1 or bound == Enum.UserInputType.MouseButton2 then
+                local click = bound == Enum.UserInputType.MouseButton1 and "Left Click" or "Right Click"
+                confirmDialog(
+                    "Are you sure you want to put " .. bound.Name .. " (" .. click .. ") as your aim keybind?",
+                    apply, revert)
+            else
+                apply()
             end
         end
     end
