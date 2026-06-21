@@ -13,8 +13,8 @@ date automatically. Every script is open source except for the actual menu which
 
 ## Features
 
-- **One-click run** — hit `RUN` on any card to execute the script.
-- **Built-in source viewer** — click a card to read the code (with syntax shading,
+- **One-click run** — hit `RUN` on any script to execute the script.
+- **Built-in source viewer** — click a script to read the code (with syntax shading,
   line numbers, and a copy button) before you run it.
 - **Auto-updating library** — loads from `Scripts.json` and re-syncs in the
   background, so the list is always current. Hit `↻ sync` to refresh on demand.
