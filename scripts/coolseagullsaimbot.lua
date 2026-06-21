@@ -6,7 +6,7 @@ _/ ___\/  _ \ /  _ \|  |       /  ___// __ \\__  \   / ___\|  |  \  | |  |  /  _
  \___  >____/ \____/|____/____/____  >\___  >____  /\___  /|____/|____/____/____  > \____|__  /__|__|_|  /___  /\____/|__|
      \/                 /_____/    \/     \/     \//_____/                      \/          \/         \/    \/
 
-    Seagull Aimbot - made by cool_seagull
+    Seagull Aimbot - by cool_seagull
 --]]
 
 -- ============================================================================
@@ -87,7 +87,34 @@ local targetPriorities= { "Closest to Mouse", "Closest to Player", "Lowest Healt
 local aimMethods      = { "Mouse Move", "Camera Lock" }
 local changingKeybind = false
 local keybindBtn
+local mouseButtonDown = {}  -- [Enum.UserInputType] = true while a mouse button is held
 local connections = {}   -- render/step loops, disconnected on close
+
+-- The aim key may be a keyboard KeyCode or a mouse button (UserInputType).
+-- Both are EnumItems, so config (de)serialization already handles them.
+local mouseAimButtons = {
+    [Enum.UserInputType.MouseButton1] = true,
+    [Enum.UserInputType.MouseButton2] = true,
+    [Enum.UserInputType.MouseButton3] = true,
+}
+
+-- Short, readable label for a bound key/button.
+local function keyName(k)
+    if typeof(k) ~= "EnumItem" then return "?" end
+    local n = k.Name
+    if n == "MouseButton1" then return "MOUSE1"
+    elseif n == "MouseButton2" then return "MOUSE2"
+    elseif n == "MouseButton3" then return "MOUSE3"
+    end
+    return n
+end
+
+-- True while the bound aim key/button is held down.
+local function isAimKeyHeld()
+    local k = Config.AimKey
+    if mouseAimButtons[k] then return mouseButtonDown[k] == true end
+    return UIS:IsKeyDown(k)
+end
 local destroyAll         -- forward declared; tears everything down
 local activeSlider       -- the slider currently being dragged (set by addSlider)
 local activePicker       -- the color picker square/hue currently being dragged
@@ -851,7 +878,7 @@ local function makeTab(name)
         btnK.Font = Enum.Font.Code
         btnK.TextColor3 = Theme.Accent
         btnK.TextSize = 12
-        btnK.Text = "[ " .. Config[key].Name .. " ]"
+        btnK.Text = "[ " .. keyName(Config[key]) .. " ]"
         btnK.ZIndex = 3
         btnK.Parent = row
         corner(btnK, 7)
@@ -1174,6 +1201,9 @@ UIS.InputChanged:Connect(function(input)
     end
 end)
 UIS.InputEnded:Connect(function(input)
+    if mouseAimButtons[input.UserInputType] then
+        mouseButtonDown[input.UserInputType] = nil
+    end
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
         activeSlider = nil
         activePicker = nil
@@ -1356,7 +1386,7 @@ local function stillLockable(plr)
 end
 
 local function updateAimbot(dt)
-    if not (Config.AimEnabled and not changingKeybind and UIS:IsKeyDown(Config.AimKey)) then
+    if not (Config.AimEnabled and not changingKeybind and isAimKeyHeld()) then
         currentTarget = nil
         return
     end
@@ -1690,16 +1720,29 @@ end
 --  INPUT (menu toggle / keybind capture)
 -- ============================================================================
 UIS.InputBegan:Connect(function(input, gameProcessed)
+    -- track held mouse buttons so they can be used as the aim key
+    if mouseAimButtons[input.UserInputType] then
+        mouseButtonDown[input.UserInputType] = true
+    end
+
     if input.KeyCode == Enum.KeyCode.RightShift or input.KeyCode == Enum.KeyCode.Insert then
         setMenu(not menuOpen)
         return
     end
-    if changingKeybind and input.UserInputType == Enum.UserInputType.Keyboard then
-        Config.AimKey = input.KeyCode
-        changingKeybind = false
-        if keybindBtn then
-            keybindBtn.Text = "[ " .. Config.AimKey.Name .. " ]"
-            keybindBtn.TextColor3 = Theme.Accent
+    if changingKeybind then
+        local bound
+        if input.UserInputType == Enum.UserInputType.Keyboard then
+            bound = input.KeyCode
+        elseif mouseAimButtons[input.UserInputType] then
+            bound = input.UserInputType
+        end
+        if bound then
+            Config.AimKey = bound
+            changingKeybind = false
+            if keybindBtn then
+                keybindBtn.Text = "[ " .. keyName(Config.AimKey) .. " ]"
+                keybindBtn.TextColor3 = Theme.Accent
+            end
         end
     end
 end)
@@ -1770,4 +1813,4 @@ end
 --  WELCOME
 -- ============================================================================
 notify("SEAGULL",
-    "RightShift / Insert = menu  |  Hold " .. Config.AimKey.Name .. " = aim", 7)
+    "RightShift / Insert = menu  |  Hold " .. keyName(Config.AimKey) .. " = aim", 7)
