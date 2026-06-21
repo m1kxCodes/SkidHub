@@ -38,4 +38,4 @@ made by **cool_seagull**, the greatest skid. dc: ```8l4n```
 
 also helped alot by **Potassiumsss** dc: ```31j2```
 
--# SkidHub and its contributers have no responsibility in any bans issued in any game/platform. Be responsible.
+### SkidHub and its contributers have no responsibility in any bans issued in any game/platform. Be responsible.
