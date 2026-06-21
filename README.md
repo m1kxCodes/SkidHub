@@ -26,7 +26,7 @@ date automatically. Every script is open source except for the actual menu which
 
 ## Usage
 
-Paste the contents of `SkidHub.lua` into your executor and run it.
+Paste our loadstring, `loadstring(game:HttpGet("https://raw.githubusercontent.com/m1kxCodes/SkidHub/refs/heads/main/main.lua"))()` into your executor and run it for automatic updates, or paste the contents of `main.lua` into your executor and run it for a static build.
 
 > Requires an executor that provides `loadstring` and an HTTP function
 > (`game:HttpGet` / `request`). For your own use only.
