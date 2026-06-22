@@ -6,7 +6,7 @@ _/ ___\/  _ \ /  _ \|  |       /  ___// __ \\__  \   / ___\|  |  \  | |  |  /  _
  \___  >____/ \____/|____/____/____  >\___  >____  /\___  /|____/|____/____/____  > \____|__  /__|__|_|  /___  /\____/|__|
      \/                 /_____/    \/     \/     \//_____/                      \/          \/         \/    \/
 
-    Seagull Aimbot  -  by cool_seagull
+    Seagull Aimbot  -  made by cool_seagull
 --]]
 
 -- ============================================================================
@@ -1897,7 +1897,9 @@ connections[#connections + 1] = RunService.RenderStepped:Connect(function(dt)
         local m = UIS:GetMouseLocation()
         fovStroke.Color = Config.FOVColor
         fovCircle.Size = UDim2.fromOffset(Config.FOVRadius * 2, Config.FOVRadius * 2)
-        fovCircle.Position = UDim2.fromOffset(m.X, m.Y + inset.Y)
+        -- GetMouseLocation already lines up with an IgnoreGuiInset=true ScreenGui,
+        -- so don't add the topbar inset here or the circle sits ~36px too low.
+        fovCircle.Position = UDim2.fromOffset(m.X, m.Y)
     end
 end)
 
